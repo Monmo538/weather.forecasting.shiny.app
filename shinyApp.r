@@ -17,7 +17,7 @@ shinyApp(
     plotOutput("plot"),
   ),
   server = function(input, output) {
-    
+
     div_ru <- reactive({
       input$state
     })
@@ -25,12 +25,12 @@ shinyApp(
     output$plot <- renderPlot({
       df <- weather_forcast(cityData[cityData$cities == input$state,]$coord, 'metric')
 
-      
+
       df$timestamp = as.Date(strptime(df$startTime, "%Y-%m-%dT%H:%M:%S"))
       df$timestamp <- unlist(df$timestamp)
       temp <- df$values
       df$temp <- temp$temperature
-      
+
       ggplot(data=df, aes(timestamp, temp)) +
         geom_line()+
         geom_point()
